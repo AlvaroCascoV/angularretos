@@ -1,0 +1,49 @@
+<div class="container mt-4">
+  <div class="row">
+    <!-- Columna izquierda: detalles del equipo -->
+    <aside class="col-12 col-md-4 mb-4">
+      @if (dataequipo.equipo) {
+      <div class="card">
+        <div class="card-body">
+          <h3 class="card-title">{{ dataequipo.equipo.nombre }}</h3>
+          <img src="{{ dataequipo.equipo.imagen }}" style="width: 100px" />
+          <p class="card-text"><strong>Champions:</strong> {{ dataequipo.equipo.champions }}</p>
+          <p class="card-text"><strong>Descripción:</strong> {{ dataequipo.equipo.descripcion }}</p>
+        </div>
+      </div>
+      } @else {
+      <div class="alert alert-warning" role="alert">Equipo no cargado.</div>
+      }
+    </aside>
+
+    <!-- Columna derecha: jugadores en grid -->
+    <section class="col-12 col-md-8">
+      <h2>Jugadores</h2>
+      @if (dataequipo.jugadores && dataequipo.jugadores.length > 0) {
+      <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+        @for ( jugador of dataequipo.jugadores; track jugador) {
+        <div class="col">
+          <div class="card h-100">
+            <img
+              src="{{ jugador.imagen }}"
+              class="card-img-top img-fluid"
+              alt="{{ jugador.nombre }}"
+            />
+            <div class="card-body">
+              <h5 class="card-title">{{ jugador.nombre }}</h5>
+              <p class="card-text mb-1"><strong>Posicion:</strong> {{ jugador.posicion }}</p>
+              <p class="card-text mb-1">
+                <strong>Nacimiento:</strong> {{ jugador.fechaNacimiento }}
+              </p>
+              <p class="card-text mb-1"><strong>País:</strong> {{ jugador.pais }}</p>
+            </div>
+          </div>
+        </div>
+        }
+      </div>
+      } @else {
+      <div class="alert alert-secondary" role="alert">No hay jugadores disponibles.</div>
+      }
+    </section>
+  </div>
+</div>
