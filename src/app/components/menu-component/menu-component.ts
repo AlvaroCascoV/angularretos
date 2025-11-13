@@ -22,7 +22,7 @@ export class MenuComponent {
   onSearch() {
     const trimmed = this.searchText?.trim();
     if (trimmed) {
-      this.serviceFutbol.search(trimmed);
+      this.serviceFutbol.searchJugadores(trimmed);
       this.router.navigate(['/buscar'], { queryParams: { busqueda: trimmed } });
     }
   }

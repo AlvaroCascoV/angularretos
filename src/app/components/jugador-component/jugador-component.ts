@@ -1,5 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
 import { Jugador } from '../../models/jugador';
 import { ServiceFutbol } from '../../services/ServiceFutbol';
 import { ActivatedRoute } from '@angular/router';
@@ -11,20 +10,29 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./jugador-component.css'],
 })
 export class JugadorComponent implements OnInit {
-  @Input() jugadores: Jugador[] = [];
+  jugadores: Jugador[] = [];
 
-  jugadores$: Observable<Jugador[]>;
-
-  constructor(private serviceFutbol: ServiceFutbol, private route: ActivatedRoute) {
-    this.jugadores$ = this.serviceFutbol.jugadores$;
-  }
+  constructor(private serviceFutbol: ServiceFutbol, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    const busqueda =
-      this.route.snapshot.queryParamMap.get('busqueda') ||
-      this.route.snapshot.queryParamMap.get('term');
+    const busqueda = this.route.snapshot.queryParamMap.get('busqueda');
     if (busqueda && String(busqueda).trim()) {
-      this.serviceFutbol.search(String(busqueda));
+      this.search(String(busqueda));
     }
+  }
+
+  search(term: string) {
+    const q = (term ?? '').trim();
+    if (!q) {
+      this.jugadores = [];
+      return;
+    }
+    this.serviceFutbol.searchJugadores(q).subscribe((players: Jugador[]) => {
+      this.jugadores = players || [];
+    });
+  }
+
+  trackById(index: number, item: Jugador) {
+    return item && item.idJugador ? item.idJugador : index;
   }
 }
