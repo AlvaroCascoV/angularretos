@@ -7,13 +7,15 @@ import { environment } from '../../environments/environment.development';
 export class ServiceFiles {
   constructor(private _http: HttpClient) {}
 
-  uploadFile(fileName: any, fileContent: any): Observable<any> {
-    let request = 'api/testingfiles';
-    let url = environment.urlApiFiles + request;
+  uploadFile(fileName: string, fileContentBase64: string): Observable<any> {
+    const request = 'api/testingfiles';
+    const url = environment.urlApiFiles + request;
 
-    const formData = new FormData();
-    formData.append('file', fileName, fileContent);
+    const archivo = {
+      fileName: fileName,
+      fileContent: fileContentBase64,
+    };
 
-    return this._http.post(url, formData);
+    return this._http.post(url, archivo);
   }
 }

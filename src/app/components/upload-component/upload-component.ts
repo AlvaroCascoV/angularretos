@@ -5,20 +5,28 @@ import { ServiceFiles } from '../../services/ServiceFiles';
   selector: 'app-upload',
   standalone: false,
   templateUrl: './upload-component.html',
-  styleUrl: './upload-component.css',
+  styleUrls: ['./upload-component.css'],
 })
 export class UploadComponent {
   constructor(private _service: ServiceFiles) {}
+  selectedFile?: File;
 
-  uploadFile(event: any): void {
-    const file: File = event.target.files[0];
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this.selectedFile = input?.files?.[0];
+  }
 
-    if (file) {
-      let fileName = file.name;
-      let fileContent = file;
-      this._service.uploadFile(fileName, fileContent).subscribe((response) => {
-        console.log(response);
-      });
-    }
+  confirmUpload(): void {
+    if (!this.selectedFile) return;
+    const file = this.selectedFile;
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      const dataUrl = reader.result as string;
+      const base64 = dataUrl.includes(',') ? dataUrl.split(',')[1] : dataUrl;
+      this._service
+        .uploadFile(file.name, base64)
+        .subscribe((res) => console.log('upload success', res));
+    };
   }
 }

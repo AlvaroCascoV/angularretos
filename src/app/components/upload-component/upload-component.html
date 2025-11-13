@@ -1,7 +1,13 @@
 <div>
   <form #formUpload="ngForm">
     <label>Archivo </label>
-    <input type="file" #cajaarchivo name="cajaarchivo" (change)="uploadFile($event)" />
-    <button style="background-color: greenyellow" (click)="cajaarchivo.click()">Subir</button>
+    <input
+      class="form-control"
+      type="file"
+      #cajaarchivo
+      name="cajaarchivo"
+      (change)="onFileSelected($event)"
+    />
+    <button type="button" class="btn btn-primary" (click)="confirmUpload()">Upload</button>
   </form>
 </div>
