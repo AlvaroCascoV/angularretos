@@ -1,4 +1,5 @@
 <div class="container mt-4">
+  @if(dataequipo){
   <div class="row">
     <!-- Columna izquierda: detalles del equipo -->
     <aside class="col-12 col-md-4 mb-4">
@@ -46,4 +47,12 @@
       }
     </section>
   </div>
+  } @else {
+  <div class="d-flex justify-content-center align-items-center" style="height: 260px">
+    <div class="text-center">
+      <img src="/assets/loading.gif" alt="Cargando..." style="width: 200px; height: auto" />
+      <div class="mt-2">Cargando datos del equipo y jugadores...</div>
+    </div>
+  </div>
+  }
 </div>
