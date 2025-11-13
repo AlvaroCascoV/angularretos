@@ -20,10 +20,10 @@ export class MenuComponent {
   }
 
   onSearch() {
-    const t = this.searchText?.trim();
-    if (t) {
-      this.serviceFutbol.search(t);
-      this.router.navigate(['/buscar'], { queryParams: { q: t } });
+    const trimmed = this.searchText?.trim();
+    if (trimmed) {
+      this.serviceFutbol.search(trimmed);
+      this.router.navigate(['/buscar'], { queryParams: { busqueda: trimmed } });
     }
   }
 }

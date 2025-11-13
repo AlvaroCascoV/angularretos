@@ -1,7 +1,7 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Jugador } from '../../models/jugador';
 import { ServiceFutbol } from '../../services/ServiceFutbol';
-import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -10,39 +10,21 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './jugador-component.html',
   styleUrls: ['./jugador-component.css'],
 })
-export class JugadorComponent implements OnInit, OnDestroy {
+export class JugadorComponent implements OnInit {
   @Input() jugadores: Jugador[] = [];
 
-  private _sub?: Subscription;
+  jugadores$: Observable<Jugador[]>;
 
-  constructor(private serviceFutbol: ServiceFutbol, private route: ActivatedRoute) {}
+  constructor(private serviceFutbol: ServiceFutbol, private route: ActivatedRoute) {
+    this.jugadores$ = this.serviceFutbol.jugadores$;
+  }
 
   ngOnInit(): void {
-    this._sub = this.serviceFutbol.jugadores$.subscribe({
-      next: (res) => (this.jugadores = res),
-      error: () => (this.jugadores = []),
-    });
-
-    this.route.queryParams.subscribe((qp) => {
-      const q = qp['q'] || qp['term'];
-      if (q && String(q).trim()) {
-        this.serviceFutbol.search(String(q));
-      }
-    });
-  }
-
-  ngOnDestroy(): void {
-    this._sub?.unsubscribe();
-  }
-
-  formatFecha(fecha?: string): string {
-    if (!fecha) return '—';
-    const d = new Date(fecha);
-    if (isNaN(d.getTime())) return fecha;
-    return d.toLocaleDateString();
-  }
-
-  trackByJugador(_i: number, j: Jugador) {
-    return j.idJugador;
+    const busqueda =
+      this.route.snapshot.queryParamMap.get('busqueda') ||
+      this.route.snapshot.queryParamMap.get('term');
+    if (busqueda && String(busqueda).trim()) {
+      this.serviceFutbol.search(String(busqueda));
+    }
   }
 }
