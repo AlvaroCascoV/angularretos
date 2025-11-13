@@ -1,0 +1,26 @@
+<div class="players-wrapper">
+  @if (jugadores && jugadores.length>0) {
+  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+    @for (player of jugadores; track player) {
+    <div class="card h-100 shadow-sm">
+      <img
+        [src]="player.imagen || 'assets/default-player.png'"
+        class="card-img-top player-img"
+        [alt]="player.nombre"
+      />
+      <div class="card-body d-flex flex-column">
+        <h5 class="card-title mb-1">{{ player.nombre }}</h5>
+        <p class="text-muted mb-1">
+          <small>#{{ player.idJugador }} - {{ player.posicion }}</small>
+        </p>
+        <p class="mb-2">
+          <small>Nacimiento: {{ player.fechaNacimiento }}</small>
+        </p>
+      </div>
+    </div>
+    }
+  </div>
+  } @else {
+  <div class="alert alert-light">No players found.</div>
+  }
+</div>

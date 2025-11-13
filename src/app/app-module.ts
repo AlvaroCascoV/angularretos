@@ -10,9 +10,10 @@ import { FormsModule } from '@angular/forms';
 import { MenuComponent } from './components/menu-component/menu-component';
 import { ServiceFutbol } from './services/ServiceFutbol';
 import { EquipoComponent } from './components/equipo-component/equipo-component';
+import { JugadorComponent } from './components/jugador-component/jugador-component';
 
 @NgModule({
-  declarations: [App, UploadComponent, MenuComponent, EquipoComponent],
+  declarations: [App, UploadComponent, MenuComponent, EquipoComponent, JugadorComponent],
   imports: [BrowserModule, AppRoutingModule, FormsModule],
   providers: [
     provideBrowserGlobalErrorListeners(),

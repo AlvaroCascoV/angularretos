@@ -30,23 +30,23 @@
             Equipos
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            @for (equipo of equipos; track equipo) {
-            <li>
+            <li *ngFor="let equipo of equipos">
               <a class="dropdown-item" [routerLink]="['/equipos', equipo.idEquipo]">{{
                 equipo.nombre
               }}</a>
             </li>
-            }
           </ul>
         </li>
       </ul>
 
-      <form class="d-flex">
+      <form class="d-flex" #formBuscar="ngForm" (ngSubmit)="onSearch()">
         <input
           class="form-control me-2"
           type="search"
           placeholder="buscar jugador..."
           aria-label="Search"
+          name="searchText"
+          [(ngModel)]="searchText"
         />
         <button class="btn btn-outline-success" type="submit">Buscar</button>
       </form>
